@@ -1,19 +1,18 @@
 package com.changgou.file;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * @ClassName FastDFSFile
- * @Description TODO
+ * @Description 上传的文件信息封装
  * @Author huangpengbing
  * @Date 2024/9/3 19:31
  * @Version 1.0
  **/
 
-@Data
+@Data // 自动帮我们重写toString(),equals(),hashCode(),getter(),setter()方法
 public class FastDFSFile implements Serializable {
 
     //文件名字
@@ -43,7 +42,6 @@ public class FastDFSFile implements Serializable {
 
     public FastDFSFile() {
     }
-
 
 
 }
