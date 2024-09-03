@@ -4,14 +4,14 @@ import com.changgou.file.FastDFSFile;
 import jdk.nashorn.internal.ir.LiteralNode;
 import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
-import org.csource.fastdfs.ClientGlobal;
-import org.csource.fastdfs.StorageClient;
-import org.csource.fastdfs.TrackerClient;
-import org.csource.fastdfs.TrackerServer;
+import org.csource.fastdfs.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -41,7 +41,28 @@ public class FastDFSClientUtil {
 
 
     /**
+     * 获取StorageClient
+     *
+     * @return
+     */
+    public static StorageClient getStorageClient() {
+        // 首先创建Tracker调度的客户端对象
+        TrackerClient trackerClient = new TrackerClient();
+        try {
+            // 接着尝试和Tracker建立连接
+            TrackerServer trackerServer = trackerClient.getConnection();
+            // 用trackerServer对象创建storage客户端对象
+            StorageClient storageClient = new StorageClient(trackerServer, null);
+            return storageClient;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
      * 文件上传方法
+     *
      * @param file
      * @return
      */
@@ -75,13 +96,59 @@ public class FastDFSClientUtil {
              */
             String[] strings = storageClient.upload_file(file.getContent(), file.getExt(), nameValuePairs);
 
-
-
             return strings;
         } catch (IOException | MyException e) {
             throw new RuntimeException(e);
         }
-
     }
 
+
+    /**
+     * 通过字节数组下载文件
+     *
+     * @param fileName 你希望下载下来的文件名
+     * @param fileData 字节数组
+     * @param response
+     * @throws IOException
+     */
+    public static void downloadByteArray(String fileName, byte[] fileData, HttpServletResponse response) throws IOException {
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileName, "UTF-8").replace("+", "%20") + "\"");
+
+        try (OutputStream toClient = new BufferedOutputStream(response.getOutputStream())) {
+            int chunkSize = 1024; // 每块的大小
+            int offset = 0;
+            while (offset < fileData.length) {
+                int length = Math.min(chunkSize, fileData.length - offset);
+                toClient.write(fileData, offset, length);
+                offset += length;
+            }
+            toClient.flush();
+        }
+    }
+
+
+    /**
+     * 检测 HTTP 请求是否来自 Microsoft 浏览器（例如 Internet Explorer、Edge）
+     *
+     * @param request
+     * @return
+     */
+    private static boolean isMSBrowser(HttpServletRequest request) {
+        // 检查 userAgent 是否为 null
+        String userAgent = request.getHeader("User-Agent");
+        if (userAgent == null) {
+            return false;
+        }
+        String[] IEBrowserSignals = {"MSIE", "Trident", "Edge"};
+        // 将 userAgent 转换为小写以进行大小写不敏感的比较
+        userAgent = userAgent.toLowerCase();
+        for (String signal : IEBrowserSignals) {
+            if (userAgent.contains(signal.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
