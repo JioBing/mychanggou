@@ -1,0 +1,27 @@
+server:
+  port: 18081
+spring:
+  application:
+    name: goods
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.176.128:3306/changgou_goods?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+# 指示系统或应用程序在处理网络地址时，优先使用 IP 地址而不是主机名。这可以减少由于 DNS 解析失败或延迟导致的问题，并确保在没有正确 DNS 配置的环境中也能正常工作。
+  instance:
+    prefer-ip-address: true
+#feign.hystrix.enabled: 启用 Feign 的 Hystrix 支持。Hystrix 是一个容错库，
+#允许你在微服务间调用时进行熔断和降级处理。如果设置为 true，Feign 客户端将与 Hystrix 集成，以处理服务调用的失败和超时。
+feign:
+  hystrix:
+    enabled: true
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.changgou.goods.pojo

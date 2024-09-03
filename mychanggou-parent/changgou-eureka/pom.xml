@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mychanggou-parent</artifactId>
+        <groupId>org.example</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>changgou-eureka</artifactId>
+    <description>
+        微服务的注册中心
+    </description>
+
+
+    <!--服务注册中心：spring-cloud-starter-netflix-eureka-server 提供了一个 Eureka 服务器，用于管理和注册微服务实例，使得微服务可以彼此发现。
+   集成 Spring Boot：通过使用 spring-cloud-starter-netflix-eureka-server，你可以很容易地将 Eureka 服务器集成到 Spring Boot 应用中，并自动配置所需的组件。-->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+    </dependencies>
+</project>

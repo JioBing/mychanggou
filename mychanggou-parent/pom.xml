@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>mychanggou-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <description>
+        畅购商城的父工程
+    </description>
+    <modules>
+        <module>changgou-gateway</module>
+        <module>changgou-service</module>
+        <module>changgou-service-api</module>
+        <module>changgou-web</module>
+        <module>changgou-eureka</module>
+        <module>changgou-common</module>
+        <module>changgou-common-db</module>
+        <module>changgou-service-api/changgou-service-goods-api</module>
+        <module>changgou-service/changgou-service-goods</module>
+        <module>changgou-service/changgou-service-file</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.8.RELEASE</version>
+    </parent>
+
+
+    <!--跳过测试，项目启动会很快-->
+    <properties>
+        <skipTests>true</skipTests>
+    </properties>
+
+    <!--依赖包-->
+    <dependencies>
+        <!--测试包-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <!--fastjson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.51</version>
+        </dependency>
+
+        <!--swagger文档-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+            http://localhost:9011/swagger-ui.html
+        -->
+    </dependencies>
+
+    <!--通过导入了 Spring Cloud 的 BOM（Bill of Materials）文件，用于集中管理项目中所有的依赖版本
+        确保所有 Spring Cloud 相关的依赖使用相同的版本，从而避免版本冲突和兼容性问题。
+        当在项目中声明 Spring Cloud 相关依赖时，无需显式指定版本号。BOM 文件中的版本号会自动应用到这些依赖中。
+        例如，声明 spring-cloud-starter-netflix-eureka-server 时，你不需要在 <dependencies> 部分指定版本号，因为版本由 BOM 文件管理。-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>  <!--指定了 Spring Cloud 的组织。-->
+                <artifactId>spring-cloud-dependencies</artifactId>  <!--指定了 BOM 文件的工件 ID。-->
+                <version>Greenwich.SR1</version>  <!--指定了 BOM 文件的版本-->
+                <type>pom</type>  <!--表示这是一个 Maven 的 BOM 文件。-->
+                <scope>import</scope>  <!--表示导入 BOM 文件用于版本管理。-->
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

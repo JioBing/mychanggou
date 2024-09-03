@@ -1,0 +1,16 @@
+server:
+  port: 18082
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1024MB # 单个文件大小
+      max-request-size: 1024MB # 是设置总上传的数据大小
+  application:
+    name: file
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka/  # 将本服务注册到Eureka
+# # 指示系统或应用程序在处理网络地址时，优先使用 IP 地址而不是主机名。这可以减少由于 DNS 解析失败或延迟导致的问题，并确保在没有正确 DNS 配置的环境中也能正常工作。
+  instance:
+    prefer-ip-address: true
