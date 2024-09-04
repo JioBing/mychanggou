@@ -12,21 +12,25 @@ import java.io.Serializable;
  * @Date 2019/6/14 19:13
  *****/
 @Table(name = "tb_album")
+@Entity
 public class Album implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-
     private Long id;//编号
 
-
     @Column(name = "title")
-    private String title;//相册名称
+    @ApiModelProperty(name = "title", value = "相册名称", dataType = "String")
+    private String title;
+
     @Column(name = "image")
-    private String image;//相册封面
+    @ApiModelProperty(name = "image", value = "相册封面，表示为一个图片路径", dataType = "String")
+    private String image;
+
     @Column(name = "image_items")
-    private String imageItems;//图片列表
+    @ApiModelProperty(name = "imageItems", value = "图片列表，包含url,status,uid;为json格式数据", dataType = "String")
+    private String imageItems;
 
 
     //get方法

@@ -6,4 +6,6 @@ import tk.mybatis.mapper.common.Mapper;
 
 @Repository
 public interface BrandMapper extends Mapper<Brand> {
+
+
 }
