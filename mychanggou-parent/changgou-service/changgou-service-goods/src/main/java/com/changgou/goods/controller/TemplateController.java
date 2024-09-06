@@ -96,4 +96,13 @@ public class TemplateController {
         List<Template> list = templateService.findAll();
         return new Result<Template>(true, StatusCode.OK, "查询成功", list);
     }
+
+
+    @ApiOperation(value = "根据分类id查询模板数据", httpMethod = "GET")
+    @GetMapping(path = "/findByCategoryId/{id}")
+    public Result findByCategoryId(@PathVariable(value = "id") long categoryId) {
+        Template byCategoryId = templateService.findByCategoryId(categoryId);
+        return new Result(true, StatusCode.OK, "根据分类id查询模板数据成功", byCategoryId);
+    }
+
 }

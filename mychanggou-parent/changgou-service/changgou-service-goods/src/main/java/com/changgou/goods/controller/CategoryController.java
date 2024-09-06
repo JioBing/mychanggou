@@ -141,11 +141,13 @@ public class CategoryController {
     /**
      * 根据父ID查询
      */
-    @RequestMapping(value = "/list/{pid}")
+    @GetMapping(value = "/list/{pid}")
     @ApiOperation(value = "根据父ID查询", httpMethod = "")
-    public Result<Category> findByPrantId(@PathVariable(value = "pid") Integer pid) {
-        //根据父节点ID查询
+    public Result<Category> findByParentId(@PathVariable(value = "pid") Integer pid) {
         List<Category> list = categoryService.findByParentId(pid);
         return new Result<Category>(true, StatusCode.OK, "查询成功", list);
     }
+
+
+
 }

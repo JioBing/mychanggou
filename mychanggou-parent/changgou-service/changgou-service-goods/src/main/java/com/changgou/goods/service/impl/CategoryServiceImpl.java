@@ -184,6 +184,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findByParentId(Integer pid) {
         Category category = new Category();
         category.setParentId(pid);
+        // category对象中parentId不为空，所以会将其当做为条件去查询
         return categoryMapper.select(category);
     }
 }

@@ -1,12 +1,15 @@
 package com.changgou.goods.service.impl;
 
+import com.changgou.goods.dao.CategoryMapper;
 import com.changgou.goods.dao.ParaMapper;
 import com.changgou.goods.dao.TemplateMapper;
+import com.changgou.goods.pojo.Category;
 import com.changgou.goods.pojo.Para;
 import com.changgou.goods.pojo.Template;
 import com.changgou.goods.service.ParaService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
@@ -25,8 +28,15 @@ import java.util.List;
 @Service
 public class ParaServiceImpl implements ParaService {
 
-    private ParaMapper paraMapper;
-    private TemplateMapper templateMapper;
+    private final ParaMapper paraMapper;
+    private final TemplateMapper templateMapper;
+    private final CategoryMapper categoryMapper;
+    @Autowired
+    public ParaServiceImpl(ParaMapper paraMapper, TemplateMapper templateMapper, CategoryMapper categoryMapper) {
+        this.paraMapper = paraMapper;
+        this.templateMapper = templateMapper;
+        this.categoryMapper = categoryMapper;
+    }
 
     /**
      * Para条件+分页查询
@@ -167,6 +177,16 @@ public class ParaServiceImpl implements ParaService {
     @Override
     public List<Para> findAll() {
         return paraMapper.selectAll();
+    }
+
+    @Override
+    public List<Para> findByCategoryId(int categoryId) {
+        Category category = categoryMapper.selectByPrimaryKey(categoryId);
+        Integer templateId = category.getTemplateId();
+        Para para = new Para();
+        para.setTemplateId(templateId);
+        List<Para> select = paraMapper.select(para);
+        return select;
     }
 
     /**

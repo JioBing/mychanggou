@@ -62,4 +62,7 @@ public interface ParaService {
      * @return
      */
     List<Para> findAll();
+
+    List<Para> findByCategoryId(int categoryId);
+
 }

@@ -5,6 +5,7 @@ import com.changgou.goods.service.BrandService;
 import com.github.pagehelper.PageInfo;
 import entity.Result;
 import entity.StatusCode;
+import io.swagger.annotations.ApiOperation;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,6 @@ import java.util.List;
 @RequestMapping(value = "/brand")
 @CrossOrigin
 public class BrandController {
-
 
     private final BrandService brandService;
     @Autowired
@@ -83,4 +83,14 @@ public class BrandController {
         PageInfo pageInfo = brandService.findPageList(brand, page, size);
         return new Result(true, StatusCode.OK, "分页+条件查询成功", pageInfo);
     }
+
+    @GetMapping(path = "/findByCategoryId/{id}")
+    @ApiOperation(value = "根据分类id查询所有品牌，", httpMethod = "GET")
+    public Result<List<Brand>> findByCategoryId(@PathVariable(value = "id") long categoryId) {
+        List<Brand> byCategoryId = brandService.findByCategoryId(categoryId);
+        return new Result<>(true, StatusCode.OK, "根据分类id查询所有品牌", byCategoryId);
+    }
+
+
+
 }

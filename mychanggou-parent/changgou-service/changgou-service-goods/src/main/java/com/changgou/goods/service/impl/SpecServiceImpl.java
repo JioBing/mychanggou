@@ -2,8 +2,10 @@ package com.changgou.goods.service.impl;
 
 import com.changgou.goods.dao.SpecMapper;
 import com.changgou.goods.dao.TemplateMapper;
+import com.changgou.goods.pojo.Category;
 import com.changgou.goods.pojo.Spec;
 import com.changgou.goods.pojo.Template;
+import com.changgou.goods.service.CategoryService;
 import com.changgou.goods.service.SpecService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,11 +29,13 @@ public class SpecServiceImpl implements SpecService {
 
     private final SpecMapper specMapper;
     private final TemplateMapper templateMapper;
+    private final CategoryService categoryService;
 
     @Autowired
-    public SpecServiceImpl(SpecMapper specMapper, TemplateMapper templateMapper) {
+    public SpecServiceImpl(SpecMapper specMapper, TemplateMapper templateMapper, CategoryService categoryService) {
         this.specMapper = specMapper;
         this.templateMapper = templateMapper;
+        this.categoryService = categoryService;
     }
 
     /**
@@ -173,6 +177,16 @@ public class SpecServiceImpl implements SpecService {
     @Override
     public List<Spec> findAll() {
         return specMapper.selectAll();
+    }
+
+    @Override
+    public List<Spec> findByCategoryId(int categoryId) {
+        Category category = categoryService.findById(categoryId);
+        Integer templateId = category.getTemplateId();
+        Spec spec = new Spec();
+        spec.setTemplateId(templateId);
+        List<Spec> select = specMapper.select(spec);
+        return select;
     }
 
 

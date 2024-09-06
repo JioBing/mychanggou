@@ -80,6 +80,12 @@ public class BrandServiceImpl implements BrandService {
         return new PageInfo(brands);
     }
 
+    @Override
+    public List<Brand> findByCategoryId(long categoryId) {
+        List<Brand> byCategoryId = brandMapper.findByCategoryId(categoryId);
+        return byCategoryId;
+    }
+
     public Example createExample(Brand brand) {
         Example example = new Example(Brand.class);
         Example.Criteria criteria = example.createCriteria();

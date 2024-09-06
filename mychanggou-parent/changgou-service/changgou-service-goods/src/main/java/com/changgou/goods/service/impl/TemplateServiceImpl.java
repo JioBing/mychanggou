@@ -161,4 +161,9 @@ public class TemplateServiceImpl implements TemplateService {
     public List<Template> findAll() {
         return templateMapper.selectAll();
     }
+
+    @Override
+    public Template findByCategoryId(long categoryId) {
+        return templateMapper.findByCategoryId(categoryId);
+    }
 }

@@ -43,12 +43,7 @@ public class SpecController {
         return new Result(true, StatusCode.OK, "查询成功", pageInfo);
     }
 
-    /***
-     * Spec分页搜索实现
-     * @param page:当前页
-     * @param size:每页显示多少条
-     * @return
-     */
+
     @GetMapping(value = "/search/{page}/{size}")
     @ApiOperation(value = "分页搜索实现", httpMethod = "GET")
     public Result<PageInfo> findPage(@PathVariable int page, @PathVariable int size) {
@@ -57,11 +52,7 @@ public class SpecController {
         return new Result<PageInfo>(true, StatusCode.OK, "查询成功", pageInfo);
     }
 
-    /***
-     * 多条件搜索品牌数据
-     * @param spec
-     * @return
-     */
+
     @PostMapping(value = "/search")
     @ApiOperation(value = "多条件搜索品牌数据", httpMethod = "POST")
     public Result<List<Spec>> findList(@RequestBody(required = false) Spec spec) {
@@ -69,11 +60,7 @@ public class SpecController {
         return new Result<List<Spec>>(true, StatusCode.OK, "查询成功", list);
     }
 
-    /***
-     * 根据ID删除品牌数据
-     * @param id
-     * @return
-     */
+
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "根据ID删除品牌数据", httpMethod = "DELETE")
     public Result delete(@PathVariable Integer id) {
@@ -81,12 +68,7 @@ public class SpecController {
         return new Result(true, StatusCode.OK, "删除成功");
     }
 
-    /***
-     * 修改Spec数据
-     * @param spec
-     * @param id
-     * @return
-     */
+
     @PutMapping(value = "/{id}")
     @ApiOperation(value = "修改Spec数据", httpMethod = "PUT")
     public Result update(@RequestBody Spec spec, @PathVariable Integer id) {
@@ -97,11 +79,7 @@ public class SpecController {
         return new Result(true, StatusCode.OK, "修改成功");
     }
 
-    /***
-     * 新增Spec数据
-     * @param spec
-     * @return
-     */
+
     @PostMapping
     @ApiOperation(value = "新增Spec数据", httpMethod = "POST")
     public Result add(@RequestBody Spec spec) {
@@ -109,11 +87,7 @@ public class SpecController {
         return new Result(true, StatusCode.OK, "添加成功");
     }
 
-    /***
-     * 根据ID查询Spec数据
-     * @param id
-     * @return
-     */
+
     @GetMapping("/{id}")
     @ApiOperation(value = "根据ID查询Spec数据", httpMethod = "GET")
     public Result<Spec> findById(@PathVariable Integer id) {
@@ -122,14 +96,18 @@ public class SpecController {
         return new Result<Spec>(true, StatusCode.OK, "查询成功", spec);
     }
 
-    /***
-     * 查询Spec全部数据
-     * @return
-     */
+
     @GetMapping
     @ApiOperation(value = "查询Spec全部数据", httpMethod = "GET")
     public Result<Spec> findAll() {
         List<Spec> list = specService.findAll();
         return new Result<Spec>(true, StatusCode.OK, "查询成功", list);
+    }
+
+    @GetMapping(path = "/findByCategoryId/{id}")
+    @ApiOperation(value = "根据分类id查询得到模板，根据模板id得到所有规则数据", httpMethod = "GET")
+    public Result findByCategoryId(@ApiParam(value = "所选分类的id", defaultValue = "42") @PathVariable(value = "id") int categoryId) {
+        List<Spec> byCategoryId = specService.findByCategoryId(categoryId);
+        return new Result(true, StatusCode.OK, "成功查询到规则数据", byCategoryId);
     }
 }
